@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order
+  template:
+    metadata:
+      labels:
+        app: order
+    spec:
+      imagePullSecrets:
+      - name: ecr
+      containers:
+      - name: order
+        image: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/order
+        ports:
+        - containerPort: 443
+        envFrom:
+        - configMapRef:
+            name: config-map
+
