@@ -7,6 +7,7 @@ resources:
   - namespace.yml
   - image-pull-secret.yml
   - config-map.yml
+  - secret.yml
   - order/deployment.yml
 images:
   - name: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/order

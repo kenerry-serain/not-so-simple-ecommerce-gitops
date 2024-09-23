@@ -12,14 +12,28 @@ spec:
       labels:
         app: order
     spec:
+      volumes:
+      - name: tls
+        secret:
+          secretName: tls
       imagePullSecrets:
       - name: ecr
       containers:
       - name: order
         image: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/order
         ports:
-        - containerPort: 443
+        - containerPort: 4443
         envFrom:
         - configMapRef:
             name: config-map
-
+        volumeMounts:
+        - name: tls
+          readOnly: true
+          mountPath: /nsse-backend/certificates
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "128m"
+          limits:
+            memory: "256Mi"
+            cpu: "256m"
