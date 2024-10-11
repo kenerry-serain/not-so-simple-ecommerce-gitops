@@ -5,7 +5,7 @@ metadata:
 data:
   ASPNETCORE_ENVIRONMENT: "Development"
   ASPNETCORE_URLS: "https://+:4443"
-  ASPNETCORE_KESTREL__CERTIFICATES__DEFAULT__PATH: "/nsse-backend/certificates/kestrel-certificate.pfx"
+  ASPNETCORE_KESTREL__CERTIFICATES__DEFAULT__PATH: "/nsse-backend/certificates/kestrel/certificate.pfx"
   ASPNETCORE_KESTREL__CERTIFICATES__DEFAULT__PASSWORD: "DevOpsNaNuvem0!"
 
   BASEADDRESS__MAIN: "http://nsse.main.internal"
@@ -17,6 +17,7 @@ data:
 
   MONGO__DATABASE: "notSoSimpleEcommerce"
   MONGO__REPORT_COLLECTION: "reports"
+  MONGO_CERTIFICATE_CONTAINER_PATH: "/nsse-backend/certificates/mongo/certificate.pem"
 
   AWSS3PARAMS01__BUCKETNAME: "nsse-bucket"
   AWSS3PARAMS01__URIEXPIRATIONMINUTES: "60"

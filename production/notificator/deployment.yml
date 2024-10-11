@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: order
+  name: notificator
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: order
+      app: notificator
   template:
     metadata:
       labels:
-        app: order
+        app: notificator
     spec:
       securityContext:
         runAsUser: 1000
@@ -23,8 +23,8 @@ spec:
       imagePullSecrets:
       - name: ecr-image-pull-credentials
       containers:
-      - name: order
-        image: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/order
+      - name: notificator
+        image: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/notificator
         ports:
         - containerPort: 4443
         envFrom:
@@ -43,7 +43,7 @@ spec:
             cpu: "50m"
         livenessProbe:
           httpGet:
-            path: /order/health
+            path: /notificator/health
             port: 4443
             scheme: HTTPS
           successThreshold: 1
@@ -53,7 +53,7 @@ spec:
           periodSeconds: 60
         readinessProbe:
           httpGet:
-            path: /order/health
+            path: /notificator/health
             port: 4443
             scheme: HTTPS
           successThreshold: 1

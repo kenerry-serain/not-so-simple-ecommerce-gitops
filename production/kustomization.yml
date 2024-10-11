@@ -5,12 +5,38 @@ commonLabels:
   application: not-so-simple-ecommerce
 resources: 
   - namespace.yml
-  - image-pull-secret.yml
   - config-map.yml
-  - secret.yml
   - service-account.yml
+  - secrets/ecr-image-pull-credentials.yml
+  - secrets/kestrel-certificate.yml
+  - secrets/mongo-certificate.yml
+  - health-checker/deployment.yml
+  - identity-server/deployment.yml
+  - invoice-generator/deployment.yml
+  - main/deployment.yml
+  - notificator/deployment.yml
   - order/deployment.yml
 images:
   - name: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/order
     newName: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/order
+    newTag: latest
+
+  - name: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/main
+    newName: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/main
+    newTag: latest
+
+  - name: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/identity-server
+    newName: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/identity-server
+    newTag: latest
+
+  - name: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/notificator
+    newName: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/notificator
+    newTag: latest
+
+  - name: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/health-checker
+    newName: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/health-checker
+    newTag: latest
+
+  - name: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/invoice-generator
+    newName: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/invoice-generator
     newTag: latest
