@@ -10,12 +10,20 @@ resources:
   - secrets/ecr-image-pull-credentials.yml
   - secrets/kestrel-certificate.yml
   - secrets/mongo-certificate.yml
-  - health-checker/deployment.yml
+  # - health-checker/deployment.yml
   - identity-server/deployment.yml
   - invoice-generator/deployment.yml
   - main/deployment.yml
   - notificator/deployment.yml
   - order/deployment.yml
+  - ingress.yml
+  # - health-checker/service.yml
+  - identity-server/service.yml
+  - invoice-generator/service.yml
+  - main/service.yml
+  - notificator/service.yml
+  - order/service.yml
+  - ingress.yml
 images:
   - name: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/order
     newName: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/order

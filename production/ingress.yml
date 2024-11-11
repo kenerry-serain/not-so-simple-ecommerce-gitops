@@ -1,0 +1,59 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress
+  annotations:
+    alb.ingress.kubernetes.io/load-balancer-name: nsse-ingress-prod
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:968225077300:certificate/929c68e5-eff3-4214-a5a9-3e2e7fdc648b
+    alb.ingress.kubernetes.io/backend-protocol: HTTPS
+    alb.ingress.kubernetes.io/healthcheck-protocol: HTTPS
+spec:
+  ingressClassName: alb
+  rules:
+  - http:
+      paths:
+      - path: /order
+        pathType: Prefix
+        backend:
+          service:
+            name: nsse-order-prod
+            port:
+              number: 4443
+      - path: /notificator
+        pathType: Prefix
+        backend:
+          service:
+            name: nsse-notificator-prod
+            port:
+              number: 4443
+      - path: /notificator
+        pathType: Prefix
+        backend:
+          service:
+            name: nsse-notificator-prod
+            port:
+              number: 4443
+      - path: /main
+        pathType: Prefix
+        backend:
+          service:
+            name: nsse-main-prod
+            port:
+              number: 4443
+      - path: /invoice-generator
+        pathType: Prefix
+        backend:
+          service:
+            name: nsse-invoice-generator-prod
+            port:
+              number: 4443
+      - path: /identity-server
+        pathType: Prefix
+        backend:
+          service:
+            name: nsse-identity-server-prod
+            port:
+              number: 4443
+
