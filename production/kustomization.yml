@@ -16,7 +16,6 @@ resources:
   - main/deployment.yml
   - notificator/deployment.yml
   - order/deployment.yml
-  - ingress.yml
   # - health-checker/service.yml
   - identity-server/service.yml
   - invoice-generator/service.yml
