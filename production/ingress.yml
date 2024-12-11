@@ -6,40 +6,27 @@ metadata:
     alb.ingress.kubernetes.io/load-balancer-name: nsse-ingress-prod
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
-    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:968225077300:certificate/1e2ca6c1-b797-4420-9385-eb2acd786189
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:968225077300:certificate/ca955a7f-7633-4fbf-b729-56d4d61d2ef9
     alb.ingress.kubernetes.io/backend-protocol: HTTPS
     alb.ingress.kubernetes.io/healthcheck-protocol: HTTPS
+    external-dns.alpha.kubernetes.io/hostname: devopsnanuvem.com
 spec:
   ingressClassName: alb
   rules:
   - http:
       paths:
-      - path: /order
+      - path: /healthchecks
         pathType: Prefix
         backend:
           service:
-            name: nsse-order-prod
+            name: nsse-health-checker-prod
             port:
               number: 4443
-      - path: /notificator
+      - path: /identity
         pathType: Prefix
         backend:
           service:
-            name: nsse-notificator-prod
-            port:
-              number: 4443
-      - path: /notificator
-        pathType: Prefix
-        backend:
-          service:
-            name: nsse-notificator-prod
-            port:
-              number: 4443
-      - path: /main
-        pathType: Prefix
-        backend:
-          service:
-            name: nsse-main-prod
+            name: nsse-identity-server-prod
             port:
               number: 4443
       - path: /invoice
@@ -49,11 +36,25 @@ spec:
             name: nsse-invoice-generator-prod
             port:
               number: 4443
-      - path: /identity
+      - path: /main
         pathType: Prefix
         backend:
           service:
-            name: nsse-identity-server-prod
+            name: nsse-main-prod
+            port:
+              number: 4443
+      - path: /notificator
+        pathType: Prefix
+        backend:
+          service:
+            name: nsse-notificator-prod
+            port:
+              number: 4443
+      - path: /order
+        pathType: Prefix
+        backend:
+          service:
+            name: nsse-order-prod
             port:
               number: 4443
 

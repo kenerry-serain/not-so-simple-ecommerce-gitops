@@ -10,5 +10,5 @@ spec:
   selector:
     app: order
   ports:
-    - port: 4443
-      nodePort: 32000
+  - port: 4443
+    nodePort: 30000

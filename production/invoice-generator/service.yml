@@ -10,5 +10,5 @@ spec:
   selector:
     app: invoice-generator
   ports:
-    - port: 4443
-      nodePort: 32003
+  - port: 4443
+    nodePort: 30003

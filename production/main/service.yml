@@ -10,5 +10,5 @@ spec:
   selector:
     app: main
   ports:
-    - port: 4443
-      nodePort: 32002
+  - port: 4443
+    nodePort: 30002
