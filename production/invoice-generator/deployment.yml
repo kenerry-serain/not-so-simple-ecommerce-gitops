@@ -31,7 +31,7 @@ spec:
       - name: ecr-image-pull-credentials
       containers:
       - name: invoice-generator
-        image: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/invoice-generator
+        image: <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/nsse/production/invoice-generator
         ports:
         - containerPort: 4443
         envFrom:

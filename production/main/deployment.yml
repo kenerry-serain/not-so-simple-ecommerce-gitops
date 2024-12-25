@@ -34,7 +34,7 @@ spec:
       - name: ecr-image-pull-credentials
       containers:
       - name: main
-        image: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/main
+        image: <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/nsse/production/main
         ports:
         - containerPort: 4443
         envFrom:
