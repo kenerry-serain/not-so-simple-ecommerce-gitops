@@ -3,44 +3,46 @@ kind: ConfigMap
 metadata:
   name: config-map
 data:
-  ASPNETCORE_ENVIRONMENT: "Development"
+  ASPNETCORE_ENVIRONMENT: "Production"
   ASPNETCORE_URLS: "https://+:4443"
   ASPNETCORE_KESTREL__CERTIFICATES__DEFAULT__PATH: "/nsse-backend/certificates/kestrel/certificate.pfx"
   ASPNETCORE_KESTREL__CERTIFICATES__DEFAULT__PASSWORD: "DevOpsNaNuvem0!"
 
-  BASEADDRESS__MAIN: "http://nsse.main.internal"
-  BASEADDRESS__IDENTITY: "http://nsse.identity.internal"
-  BASEADDRESS__ORDER: "http://nsse.order.internal"
+  BASEADDRESS__MAIN: "https://devopsnanuvem.com/main"
+  BASEADDRESS__IDENTITY: "https://devopsnanuvem.com/identity"
+  BASEADDRESS__ORDER: "https://devopsnanuvem.com/order"
 
   LOCALSTACK__ISENABLED: "false"
-  LOCALSTACK__SERVICEURL: "http://nsse.localstack.internal:4566"
 
   MONGO__DATABASE: "notSoSimpleEcommerce"
   MONGO__REPORT_COLLECTION: "reports"
   MONGO_CERTIFICATE_CONTAINER_PATH: "/nsse-backend/certificates/mongo/certificate.pem"
 
-  AWSS3PARAMS01__BUCKETNAME: "nsse-bucket"
+  CONNECTIONSTRINGS__DEFAULT: 'User ID=nsseAdmin;Password=5QK>7J!DnzpJ%Mh4_L?Ks7x**6:0;Host=nsse-aurora-serverless-cluster-proxy.proxy-cw6fxviejw55.us-east-1.rds.amazonaws.com;Port=5432;Database=notSoSimpleEcommerce;Include Error Detail=true'
+  CONNECTIONSTRINGS__MONGO: "mongodb://nsse:ZbaZIkrhQ1LK8YTX8hk5g7HccZIxqY@host.docker.internal:27017/admin?ssl=true&sslInvalidHostNameAllowed=true&connectTimeoutMS=10000&authSource=admin&authMechanism=SCRAM-SHA-1"
+
+  AWSS3PARAMS01__BUCKETNAME: "nsse-application-bucket"
   AWSS3PARAMS01__URIEXPIRATIONMINUTES: "60"
 
-  IDENTITY__ISSUER: "http://nsse.identity.internal"
-  IDENTITY__AUDIENCE: "http://devopsnanuvem.internal"
+  IDENTITY__ISSUER: "https://devopsnanuvem.com/identity"
+  IDENTITY__AUDIENCE: "https://devopsnanuvem.com"
   IDENTITY__TOKENLIFETIME: "60"
   IDENTITY__KEY: "<YOUR-ENCRYPTED-KEY>"
   IDENTITY__ADMIN__USER: "admin@nsse.com"
   IDENTITY__ADMIN__USER__PASSWORD: "<YOUR-ENCRYPTED-PASSWORD>"
 
   HEALTHCHECKSUI__HEALTHCHECKS__0__NAME: "Postgresql"
-  HEALTHCHECKSUI__HEALTHCHECKS__0__URI: "http://nsse.health-checker.internal/healthchecks/health"
+  HEALTHCHECKSUI__HEALTHCHECKS__0__URI: "https://devopsnanuvem.com/healthchecks/health"
   HEALTHCHECKSUI__HEALTHCHECKS__1__NAME: "Main"
-  HEALTHCHECKSUI__HEALTHCHECKS__1__URI: "http://nsse.main.internal/main/health"
+  HEALTHCHECKSUI__HEALTHCHECKS__1__URI: "https://devopsnanuvem.com/main/health"
   HEALTHCHECKSUI__HEALTHCHECKS__2__NAME: "Order"
-  HEALTHCHECKSUI__HEALTHCHECKS__2__URI: "http://nsse.order.internal/order/health"
+  HEALTHCHECKSUI__HEALTHCHECKS__2__URI: "https://devopsnanuvem.com/order/health"
   HEALTHCHECKSUI__HEALTHCHECKS__3__NAME: "Notificator"
-  HEALTHCHECKSUI__HEALTHCHECKS__3__URI: "http://nsse.notificator.internal/notificator/health"
+  HEALTHCHECKSUI__HEALTHCHECKS__3__URI: "https://devopsnanuvem.com/notificator/health"
   HEALTHCHECKSUI__HEALTHCHECKS__4__NAME: "Identity Server"
-  HEALTHCHECKSUI__HEALTHCHECKS__4__URI: "http://nsse.identity.internal/identity/health"
+  HEALTHCHECKSUI__HEALTHCHECKS__4__URI: "https://devopsnanuvem.com/identity/health"
   HEALTHCHECKSUI__HEALTHCHECKS__5__NAME: "Invoice Generator"
-  HEALTHCHECKSUI__HEALTHCHECKS__5__URI: "http://nsse.invoice.internal/invoice/health"
+  HEALTHCHECKSUI__HEALTHCHECKS__5__URI: "https://devopsnanuvem.com/invoice/health"
 
   NOTIFICATOR__AWSSQSQUEUEMONITORPARAMS01__QUEUENAME: "EmailNotificationQueue"
   NOTIFICATOR__AWSSQSQUEUEMONITORPARAMS01__QUEUEOWNERAWSACCOUNTID: "<AWS_ACCOUNT_ID>"
