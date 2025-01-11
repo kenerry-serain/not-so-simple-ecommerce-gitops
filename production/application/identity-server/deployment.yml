@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: health-checker
+  name: identity-server
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: health-checker
+      app: identity-server
   template:
     metadata:
       labels:
-        app: health-checker
+        app: identity-server
     spec:
       topologySpreadConstraints:
       - maxSkew: 1
@@ -18,7 +18,7 @@ spec:
         whenUnsatisfiable: DoNotSchedule
         labelSelector:
           matchLabels:
-            app: health-checker
+            app: identity-server
       securityContext:
         runAsUser: 1000
         runAsGroup: 1000
@@ -30,8 +30,8 @@ spec:
       imagePullSecrets:
       - name: ecr-image-pull-credentials
       containers:
-      - name: health-checker
-        image: <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/nsse/production/health-checker
+      - name: identity-server
+        image: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/identity-server
         ports:
         - containerPort: 4443
         envFrom:
@@ -43,14 +43,14 @@ spec:
           mountPath: /nsse-backend/certificates/kestrel
         resources:
           requests:
-            memory: "256Mi"
-            cpu: "200m"
+            memory: "128Mi"
+            cpu: "100m"
           limits:
-            memory: "256Mi"
-            cpu: "200m"
+            memory: "128Mi"
+            cpu: "100m"
         livenessProbe:
           httpGet:
-            path: /healthchecks/health
+            path: /invoice/health
             port: 4443
             scheme: HTTPS
           successThreshold: 1
@@ -60,7 +60,7 @@ spec:
           periodSeconds: 60
         readinessProbe:
           httpGet:
-            path: /healthchecks/health
+            path: /invoice/health
             port: 4443
             scheme: HTTPS
           successThreshold: 1

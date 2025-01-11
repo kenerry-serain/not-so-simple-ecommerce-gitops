@@ -4,11 +4,11 @@ metadata:
   name: identity-server
   annotations:
     service.kubernetes.io/topology-mode: Auto
-    alb.ingress.kubernetes.io/healthcheck-path: /identity/health
+    alb.ingress.kubernetes.io/healthcheck-path: /invoice/health
 spec:
   type: NodePort
   selector:
     app: identity-server
   ports:
   - port: 4443
-    nodePort: 30004
+    nodePort: 30003

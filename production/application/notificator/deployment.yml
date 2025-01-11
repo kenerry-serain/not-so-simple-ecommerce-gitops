@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: main
+  name: notificator
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: main
+      app: notificator
   template:
     metadata:
       labels:
-        app: main
+        app: notificator
     spec:
       topologySpreadConstraints:
       - maxSkew: 1
@@ -18,7 +18,7 @@ spec:
         whenUnsatisfiable: DoNotSchedule
         labelSelector:
           matchLabels:
-            app: main
+            app: notificator
       securityContext:
         runAsUser: 1000
         runAsGroup: 1000
@@ -27,14 +27,11 @@ spec:
       - name: kestrel
         secret:
           secretName: kestrel-certificate
-      - name: mongo
-        secret:
-          secretName: mongo-certificate
       imagePullSecrets:
       - name: ecr-image-pull-credentials
       containers:
-      - name: main
-        image: <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/nsse/production/main
+      - name: notificator
+        image: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/notificator
         ports:
         - containerPort: 4443
         envFrom:
@@ -44,9 +41,6 @@ spec:
         - name: kestrel
           readOnly: true
           mountPath: /nsse-backend/certificates/kestrel
-        - name: mongo
-          readOnly: true
-          mountPath: /nsse-backend/certificates/mongo
         resources:
           requests:
             memory: "128Mi"
@@ -56,7 +50,7 @@ spec:
             cpu: "100m"
         livenessProbe:
           httpGet:
-            path: /main/health
+            path: /notificator/health
             port: 4443
             scheme: HTTPS
           successThreshold: 1
@@ -66,7 +60,7 @@ spec:
           periodSeconds: 60
         readinessProbe:
           httpGet:
-            path: /main/health
+            path: /notificator/health
             port: 4443
             scheme: HTTPS
           successThreshold: 1

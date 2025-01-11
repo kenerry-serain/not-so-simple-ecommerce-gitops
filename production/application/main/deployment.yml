@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: invoice-generator
+  name: main
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: invoice-generator
+      app: main
   template:
     metadata:
       labels:
-        app: invoice-generator
+        app: main
     spec:
       topologySpreadConstraints:
       - maxSkew: 1
@@ -18,7 +18,7 @@ spec:
         whenUnsatisfiable: DoNotSchedule
         labelSelector:
           matchLabels:
-            app: invoice-generator
+            app: main
       securityContext:
         runAsUser: 1000
         runAsGroup: 1000
@@ -27,11 +27,14 @@ spec:
       - name: kestrel
         secret:
           secretName: kestrel-certificate
+      - name: mongo
+        secret:
+          secretName: mongo-certificate
       imagePullSecrets:
       - name: ecr-image-pull-credentials
       containers:
-      - name: invoice-generator
-        image: <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/nsse/production/invoice-generator
+      - name: main
+        image: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/main
         ports:
         - containerPort: 4443
         envFrom:
@@ -41,16 +44,19 @@ spec:
         - name: kestrel
           readOnly: true
           mountPath: /nsse-backend/certificates/kestrel
+        - name: mongo
+          readOnly: true
+          mountPath: /nsse-backend/certificates/mongo
         resources:
           requests:
             memory: "128Mi"
             cpu: "100m"
           limits:
-            memory: "256Mi"
-            cpu: "200m"
+            memory: "128Mi"
+            cpu: "100m"
         livenessProbe:
           httpGet:
-            path: /invoice/health
+            path: /main/health
             port: 4443
             scheme: HTTPS
           successThreshold: 1
@@ -60,7 +66,7 @@ spec:
           periodSeconds: 60
         readinessProbe:
           httpGet:
-            path: /invoice/health
+            path: /main/health
             port: 4443
             scheme: HTTPS
           successThreshold: 1
