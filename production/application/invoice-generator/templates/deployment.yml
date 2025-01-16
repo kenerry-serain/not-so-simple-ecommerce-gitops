@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.invoiceGeneratorDeployment.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      topologySpreadConstraints:
+      {{- range .Values.invoiceGeneratorDeployment.topologySpreadConstraints }}
+      - maxSkew: {{ .maxSkew }}
+        topologyKey: {{ .topologyKey }}
+        whenUnsatisfiable: {{ .whenUnsatisfiable }}
+        labelSelector:
+          matchLabels:
+            app: {{ $.Release.Name }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.invoiceGeneratorDeployment.securityContext | nindent 8 }}
+      serviceAccount: {{.Values.invoiceGeneratorDeployment.serviceAccountName}}
+      volumes:
+        {{- toYaml .Values.invoiceGeneratorDeployment.volumes | nindent 6 }}
+      imagePullSecrets:
+      - name: {{ .Values.invoiceGeneratorDeployment.imagePullSecrets }}
+      containers:
+      - name: {{ .Release.Name }}
+        image: {{ .Values.invoiceGeneratorDeployment.image }}
+        ports:
+        - containerPort: {{.Values.invoiceGeneratorDeployment.containerPort}}
+        envFrom:
+        - configMapRef:
+            name: {{.Values.invoiceGeneratorDeployment.configMap}}
+        volumeMounts:
+          {{- toYaml .Values.invoiceGeneratorDeployment.volumeMounts | nindent 8 }}
+        resources:
+          {{- toYaml .Values.invoiceGeneratorDeployment.resources | nindent 10 }}
+        livenessProbe:
+          {{- toYaml .Values.invoiceGeneratorDeployment.livenessProbe | nindent 10 }}
+        readinessProbe:
+          {{- toYaml .Values.invoiceGeneratorDeployment.readinessProbe | nindent 10 }}

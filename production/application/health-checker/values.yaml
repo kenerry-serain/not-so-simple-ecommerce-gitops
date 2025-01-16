@@ -1,0 +1,50 @@
+healthCheckerDeployment:
+  image: <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/nsse/production/health-checker
+  containerPort: 4443
+  nodePort: 30005
+  configMap: nsse-config-map-prod
+  replicaCount: 1
+  serviceAccount: nsse-sa-prod
+  imagePullSecrets: nsse-ecr-image-pull-credentials-prod
+  topologySpreadConstraints:
+  - maxSkew: 1
+    topologyKey: topology.kubernetes.io/zone
+    whenUnsatisfiable: DoNotSchedule
+  securityContext:
+    runAsUser: 1000
+    runAsGroup: 1000
+  volumes:
+  - name: kestrel
+    secret:
+      secretName: kestrel-certificate
+  volumeMounts: 
+  - name: kestrel
+    readOnly: true
+    mountPath: /nsse-backend/certificates/kestrel
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "100m"
+    limits:
+      memory: "128Mi"
+      cpu: "100m"
+  livenessProbe:
+    httpGet:
+      path: /healthchecks/health
+      port: 4443
+      scheme: HTTPS
+    successThreshold: 1
+    failureThreshold: 3
+    initialDelaySeconds: 120
+    timeoutSeconds: 15
+    periodSeconds: 60
+  readinessProbe:
+    httpGet:
+      path: /healthchecks/health
+      port: 4443
+      scheme: HTTPS
+    successThreshold: 1
+    failureThreshold: 3
+    initialDelaySeconds: 3
+    timeoutSeconds: 15
+    periodSeconds: 3

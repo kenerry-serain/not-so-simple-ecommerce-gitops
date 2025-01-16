@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.mainDeployment.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      topologySpreadConstraints:
+      {{- range .Values.mainDeployment.topologySpreadConstraints }}
+      - maxSkew: {{ .maxSkew }}
+        topologyKey: {{ .topologyKey }}
+        whenUnsatisfiable: {{ .whenUnsatisfiable }}
+        labelSelector:
+          matchLabels:
+            app: {{ $.Release.Name }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.mainDeployment.securityContext | nindent 8 }}
+      serviceAccount: {{.Values.mainDeployment.serviceAccountName}}
+      volumes:
+        {{- toYaml .Values.mainDeployment.volumes | nindent 6 }}
+      imagePullSecrets:
+      - name: {{ .Values.mainDeployment.imagePullSecrets }}
+      containers:
+      - name: {{ .Release.Name }}
+        image: {{ .Values.mainDeployment.image }}
+        ports:
+        - containerPort: {{.Values.mainDeployment.containerPort}}
+        envFrom:
+        - configMapRef:
+            name: {{.Values.mainDeployment.configMap}}
+        volumeMounts:
+          {{- toYaml .Values.mainDeployment.volumeMounts | nindent 8 }}
+        resources:
+          {{- toYaml .Values.mainDeployment.resources | nindent 10 }}
+        livenessProbe:
+          {{- toYaml .Values.mainDeployment.livenessProbe | nindent 10 }}
+        readinessProbe:
+          {{- toYaml .Values.mainDeployment.readinessProbe | nindent 10 }}

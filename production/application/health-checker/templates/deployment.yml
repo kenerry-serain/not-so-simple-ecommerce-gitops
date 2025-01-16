@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.healthCheckerDeployment.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      topologySpreadConstraints:
+      {{- range .Values.healthCheckerDeployment.topologySpreadConstraints }}
+      - maxSkew: {{ .maxSkew }}
+        topologyKey: {{ .topologyKey }}
+        whenUnsatisfiable: {{ .whenUnsatisfiable }}
+        labelSelector:
+          matchLabels:
+            app: {{ $.Release.Name }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.healthCheckerDeployment.securityContext | nindent 8 }}
+      serviceAccount: {{.Values.healthCheckerDeployment.serviceAccountName}}
+      volumes:
+        {{- toYaml .Values.healthCheckerDeployment.volumes | nindent 6 }}
+      imagePullSecrets:
+      - name: {{ .Values.healthCheckerDeployment.imagePullSecrets }}
+      containers:
+      - name: {{ .Release.Name }}
+        image: {{ .Values.healthCheckerDeployment.image }}
+        ports:
+        - containerPort: {{.Values.healthCheckerDeployment.containerPort}}
+        envFrom:
+        - configMapRef:
+            name: {{.Values.healthCheckerDeployment.configMap}}
+        volumeMounts:
+          {{- toYaml .Values.healthCheckerDeployment.volumeMounts | nindent 8 }}
+        resources:
+          {{- toYaml .Values.healthCheckerDeployment.resources | nindent 10 }}
+        livenessProbe:
+          {{- toYaml .Values.healthCheckerDeployment.livenessProbe | nindent 10 }}
+        readinessProbe:
+          {{- toYaml .Values.healthCheckerDeployment.readinessProbe | nindent 10 }}

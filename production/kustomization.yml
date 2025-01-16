@@ -4,53 +4,71 @@ namePrefix: "nsse-"
 commonLabels:
   application: not-so-simple-ecommerce
 resources: 
-  - application/namespace.yml
-  - application/config-map.yml
-  - application/service-account.yml
-  - application/secrets/ecr-image-pull-credentials.yml
-  - application/secrets/kestrel-certificate.yml
-  - application/secrets/mongo-certificate.yml
-  # application/- health-checker/deployment.yml
-  - application/identity-server/deployment.yml
-  - application/invoice-generator/deployment.yml
-  - application/main/deployment.yml
-  - application/notificator/deployment.yml
-  - application/order/deployment.yml
-  # application/- health-checker/service.yml
-  - application/identity-server/service.yml
-  - application/invoice-generator/service.yml
-  - application/main/service.yml
-  - application/notificator/service.yml
-  - application/order/service.yml
-  - application/identity-server/hpa.yml
-  - application/invoice-generator/hpa.yml
-  - application/main/hpa.yml
-  - application/notificator/hpa.yml
-  - application/order/hpa.yml
-  - application/ingress.yml
+  - infrastructure/namespace.yml
+  - infrastructure/config-map.yml
+  - infrastructure/service-account.yml
+  - infrastructure/secrets/ecr-image-pull-credentials.yml
+  - infrastructure/secrets/kestrel-certificate.yml
+  - infrastructure/secrets/mongo-certificate.yml
+  - infrastructure/ingress.yml
   - infrastructure/network-policies/ingress.yml
   - infrastructure/network-policies/egress.yml
+
+helmGlobals:
+  chartHome: application
+
+helmCharts:
+- name: health-checker
+  repo: health-checker
+  releaseName: health-checker
+  valuesFile: application/health-checker/values.yaml
+
+- name: identity-server
+  repo: identity-server
+  releaseName: identity-server
+  valuesFile: application/identity-server/values.yaml
+
+- name: invoice-generator
+  repo: invoice-generator
+  releaseName: invoice-generator
+  valuesFile: application/invoice-generator/values.yaml
+
+- name: main
+  repo: main
+  releaseName: main
+  valuesFile: application/main/values.yaml
+
+- name: notificator
+  repo: notificator
+  releaseName: notificator
+  valuesFile: application/notificator/values.yaml
+
+- name: order
+  repo: order
+  releaseName: order
+  valuesFile: application/order/values.yaml
+
 images:
-  - name: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/order
-    newName: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/order
+  - name: <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/nsse/production/order
+    newName: <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/nsse/production/order
     newTag: latest
 
-  - name: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/main
-    newName: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/main
+  - name: <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/nsse/production/main
+    newName: <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/nsse/production/main
     newTag: latest
 
-  - name: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/identity-server
-    newName: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/identity-server
+  - name: <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/nsse/production/identity-server
+    newName: <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/nsse/production/identity-server
     newTag: latest
 
-  - name: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/notificator
-    newName: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/notificator
+  - name: <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/nsse/production/notificator
+    newName: <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/nsse/production/notificator
     newTag: latest
 
-  - name: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/health-checker
-    newName: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/health-checker
+  - name: <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/nsse/production/health-checker
+    newName: <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/nsse/production/health-checker
     newTag: latest
 
-  - name: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/invoice-generator
-    newName: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/invoice-generator
+  - name: <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/nsse/production/invoice-generator
+    newName: <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/nsse/production/invoice-generator
     newTag: latest

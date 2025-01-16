@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.identityServerDeployment.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      topologySpreadConstraints:
+      {{- range .Values.identityServerDeployment.topologySpreadConstraints }}
+      - maxSkew: {{ .maxSkew }}
+        topologyKey: {{ .topologyKey }}
+        whenUnsatisfiable: {{ .whenUnsatisfiable }}
+        labelSelector:
+          matchLabels:
+            app: {{ $.Release.Name }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.identityServerDeployment.securityContext | nindent 8 }}
+      serviceAccount: {{.Values.identityServerDeployment.serviceAccountName}}
+      volumes:
+        {{- toYaml .Values.identityServerDeployment.volumes | nindent 6 }}
+      imagePullSecrets:
+      - name: {{ .Values.identityServerDeployment.imagePullSecrets }}
+      containers:
+      - name: {{ .Release.Name }}
+        image: {{ .Values.identityServerDeployment.image }}
+        ports:
+        - containerPort: {{.Values.identityServerDeployment.containerPort}}
+        envFrom:
+        - configMapRef:
+            name: {{.Values.identityServerDeployment.configMap}}
+        volumeMounts:
+          {{- toYaml .Values.identityServerDeployment.volumeMounts | nindent 8 }}
+        resources:
+          {{- toYaml .Values.identityServerDeployment.resources | nindent 10 }}
+        livenessProbe:
+          {{- toYaml .Values.identityServerDeployment.livenessProbe | nindent 10 }}
+        readinessProbe:
+          {{- toYaml .Values.identityServerDeployment.readinessProbe | nindent 10 }}
