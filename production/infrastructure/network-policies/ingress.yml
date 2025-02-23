@@ -10,14 +10,7 @@ spec:
   ingress:
     - from:
       - ipBlock:
-          cidr: 10.0.0.0/26
-      ports:
-      - port: 30000
-      - port: 30001
-      - port: 30002
-      - port: 30003
-      - port: 30004
-      - port: 30005
+          cidr: 0.0.0.0/0
     - from:
       - podSelector:
           matchLabels:
