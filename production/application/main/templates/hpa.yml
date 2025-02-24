@@ -1,39 +1,23 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: main
+  name: {{ .Release.Name }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: nsse-main-prod
-  minReplicas: 1
-  maxReplicas: 3
+    name: {{ .Release.Name }}
+  minReplicas: {{ .Values.mainDeployment.autoScaling.minReplicas }}
+  maxReplicas: {{ .Values.mainDeployment.autoScaling.maxReplicas }}
   metrics:
   - type: Resource
     resource:
       name: cpu
       target:
         type: Utilization
-        averageUtilization: 50
+        averageUtilization: {{ .Values.mainDeployment.autoScaling.averageCpuUtilization }}
   behavior:
     scaleDown:
-      stabilizationWindowSeconds: 15
-      policies:
-      - type: Pods
-        value: 2
-        periodSeconds: 15
-      - type: Percent
-        value: 50
-        periodSeconds: 15
-      selectPolicy: Min
+      {{- toYaml .Values.mainDeployment.autoScaling.scaleDown | nindent 6 }}
     scaleUp:
-      stabilizationWindowSeconds: 0
-      policies:
-      - type: Percent
-        value: 100
-        periodSeconds: 15
-      - type: Pods
-        value: 2
-        periodSeconds: 15
-      selectPolicy: Max
+      {{- toYaml .Values.mainDeployment.autoScaling.scaleUp | nindent 6 }}

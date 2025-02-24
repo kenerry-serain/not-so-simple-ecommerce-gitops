@@ -6,6 +6,30 @@ mainDeployment:
   replicaCount: 1
   serviceAccount: nsse-sa-prod
   imagePullSecrets: nsse-ecr-image-pull-credentials-prod
+  autoScaling:
+    minReplicas: 1
+    maxReplicas: 3
+    averageCpuUtilization: 50
+    scaleDown:  
+      stabilizationWindowSeconds: 15
+      policies:
+      - type: Pods
+        value: 2
+        periodSeconds: 15
+      - type: Percent
+        value: 50
+        periodSeconds: 15
+      selectPolicy: Min
+    scaleUp:
+      stabilizationWindowSeconds: 0
+      policies:
+      - type: Percent
+        value: 100
+        periodSeconds: 15
+      - type: Pods
+        value: 2
+        periodSeconds: 15
+      selectPolicy: Max
   topologySpreadConstraints:
   - maxSkew: 1
     topologyKey: topology.kubernetes.io/zone
