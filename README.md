@@ -67,18 +67,34 @@ kubectl create secret docker-registry ecr-image-pull-credentials \
 
 ---
 
-### 3. Conexão no Cluster Kubernetes Localmente
+### 3. Configuração Kube Config
 
-Para executar os manifestos deste repositório no Cluster Kubernetes a partir da sua máquina local, primeiramente é necessário abrir um túnel com algum nó master mapeando localmente o kube-apiserver que estará rodando na porta 6443 do nó localmente na mesma porta. Para fazer isso copie o arquivo `/etc/kubernetes/admin.conf` que está do nó master para dentro da sua máquina, substitua o DNS do NLB por `127.0.0.1` e adicione o apontamento do endereço 127.0.0.1 para o DNS do NLB no arquivo hosts da sua máquina e só então, abra o túnel. 
+```bash
+aws ssm start-session --target <ANY_MASTER_INSTANCE_ID>
+sudo su
+cat /etc/kubernetes/admin.conf
+```
+
+Copie o resultado do cat, para o arquivo /etc/kubernetes/admin.conf na sua máquina local e lembre-se
+de substituir o DNS do NLB por 127.0.0.1 e também adicionar o apontamento do endereço 127.0.0.1 para o 
+DNS do NLB no arquivo hosts da sua máquina.
+
+---
+
+### 4. Teste da Conexão com o Cluster Kubernetes
+
+Para executar os manifestos deste repositório no Cluster Kubernetes a partir da sua máquina local, 
+primeiramente é necessário abrir um túnel com algum nó master mapeando localmente o kube-apiserver que estará 
+rodando na porta 6443 do nó localmente na mesma porta. Edite o arquivo `/etc/kubernetes/admin.conf` do passo anterior
+na sua máquina, substituindo o DNS do NLB por `127.0.0.1` e adicione o apontamento do endereço 127.0.0.1 para o 
+DNS do NLB no arquivo hosts da sua máquina e só então, abra o túnel. 
 
 ```bash
 aws ssm start-session \
     --target <ANY_MASTER_INSTANCE_ID> \
     --document-name AWS-StartPortForwardingSession \
     --parameters 'portNumber=6443,localPortNumber=6443'
-
 export KUBECONFIG=/etc/kubernetes/admin.conf
-
 kubectl get nodes
 ```
 
@@ -86,7 +102,7 @@ kubectl get nodes
 
 ---
 
-### 4. Aplicação dos Manifestos no Cluster Kubernetes
+### 5. Aplicação dos Manifestos no Cluster Kubernetes
 
 Execute o comando abaixo para aplicar os manifestos no Cluster Kubernetes:
 
