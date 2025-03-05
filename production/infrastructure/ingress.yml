@@ -4,12 +4,13 @@ metadata:
   name: ingress
   annotations:
     alb.ingress.kubernetes.io/backend-protocol: HTTPS
-    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:<AWS_ACCOUNT_ID>:certificate/7d86bc78-4d10-41d4-8ef2-5aca920deeb4
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:<AWS_ACCOUNT_ID>:certificate/307f252a-f107-4160-9890-a7aba1ae3e6f
     alb.ingress.kubernetes.io/healthcheck-protocol: HTTPS
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
     alb.ingress.kubernetes.io/load-balancer-name: nsse-ingress-prod
-    alb.ingress.kubernetes.io/scheme: internet-facing
-    external-dns.alpha.kubernetes.io/hostname: devopsnanuvem.com
+    alb.ingress.kubernetes.io/scheme: internal
+    external-dns.alpha.kubernetes.io/hostname: backend.devopsnanuvem.com
+    alb.ingress.kubernetes.io/security-groups: nsse-production-alb-security-group,nsse-production-worker-security-group
 spec:
   ingressClassName: alb
   rules:
