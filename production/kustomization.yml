@@ -55,7 +55,7 @@ images:
 
   - name: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/main
     newName: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/main
-    newTag: latest
+    newTag: v8
 
   - name: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/identity-server
     newName: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/identity-server

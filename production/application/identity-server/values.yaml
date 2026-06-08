@@ -2,6 +2,9 @@ identityServerDeployment:
   image: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/identity-server
   containerPort: 4443
   nodePort: 30004
+  previewNodePort: 30005
+  activeServiceName: nsse-identity-server-prod
+  previewServiceName: nsse-identity-server-preview-prod
   configMap: nsse-config-map-prod
   replicaCount: 1
   serviceAccount: nsse-sa-prod

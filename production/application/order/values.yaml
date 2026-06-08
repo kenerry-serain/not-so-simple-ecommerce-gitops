@@ -2,6 +2,9 @@ orderDeployment:
   image: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/order
   containerPort: 4443
   nodePort: 30000
+  previewNodePort: 30001
+  activeServiceName: nsse-order-prod
+  previewServiceName: nsse-order-preview-prod
   configMap: nsse-config-map-prod
   replicaCount: 1
   serviceAccount: nsse-sa-prod

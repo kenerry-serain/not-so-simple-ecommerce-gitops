@@ -1,16 +1,26 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
 metadata:
   name: {{ .Release.Name }}
 spec:
   replicas: {{ .Values.identityServerDeployment.replicaCount }}
+  revisionHistoryLimit: 3
   selector:
     matchLabels:
       app: {{ .Release.Name }}
+      application: not-so-simple-ecommerce
+  strategy:
+    blueGreen:
+      activeService: {{ .Values.identityServerDeployment.activeServiceName }}
+      previewService: {{ .Values.identityServerDeployment.previewServiceName }}
+      autoPromotionEnabled: false
+      scaleDownDelaySeconds: 300
+      abortScaleDownDelaySeconds: 30
   template:
     metadata:
       labels:
         app: {{ .Release.Name }}
+        application: not-so-simple-ecommerce
     spec:
       topologySpreadConstraints:
       {{- range .Values.identityServerDeployment.topologySpreadConstraints }}
@@ -23,7 +33,7 @@ spec:
       {{- end }}
       securityContext:
         {{- toYaml .Values.identityServerDeployment.securityContext | nindent 8 }}
-      serviceAccount: {{.Values.identityServerDeployment.serviceAccountName}}
+      serviceAccount: {{ .Values.identityServerDeployment.serviceAccount }}
       volumes:
         {{- toYaml .Values.identityServerDeployment.volumes | nindent 6 }}
       imagePullSecrets:
@@ -32,10 +42,10 @@ spec:
       - name: {{ .Release.Name }}
         image: {{ .Values.identityServerDeployment.image }}
         ports:
-        - containerPort: {{.Values.identityServerDeployment.containerPort}}
+        - containerPort: {{ .Values.identityServerDeployment.containerPort }}
         envFrom:
         - configMapRef:
-            name: {{.Values.identityServerDeployment.configMap}}
+            name: {{ .Values.identityServerDeployment.configMap }}
         volumeMounts:
           {{- toYaml .Values.identityServerDeployment.volumeMounts | nindent 8 }}
         resources:

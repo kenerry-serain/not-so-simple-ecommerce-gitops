@@ -4,18 +4,44 @@ metadata:
   name: ingress
   annotations:
     alb.ingress.kubernetes.io/backend-protocol: HTTPS
-    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:968225077300:certificate/f56d35c6-9db4-4bf3-ba2c-8ae276f529e2
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:968225077300:certificate/51e6d3fe-432d-451f-8928-3ddc91acc25b
     alb.ingress.kubernetes.io/healthcheck-protocol: HTTPS
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
     alb.ingress.kubernetes.io/load-balancer-name: nsse-ingress-prod
     alb.ingress.kubernetes.io/scheme: internal
-    external-dns.alpha.kubernetes.io/hostname: backend.devopsnanuvem.com
+    external-dns.alpha.kubernetes.io/hostname: backend.devopsnanuvemweek.com
     alb.ingress.kubernetes.io/security-groups: nsse-production-alb-security-group,nsse-production-worker-security-group
+    alb.ingress.kubernetes.io/conditions.nsse-main-preview-prod: '[{"field":"http-header","httpHeaderConfig":{"httpHeaderName":"x-preview","values":["true"]}}]'
+    alb.ingress.kubernetes.io/conditions.nsse-order-preview-prod: '[{"field":"http-header","httpHeaderConfig":{"httpHeaderName":"x-preview","values":["true"]}}]'
+    alb.ingress.kubernetes.io/conditions.nsse-identity-server-preview-prod: '[{"field":"http-header","httpHeaderConfig":{"httpHeaderName":"x-preview","values":["true"]}}]'
 spec:
   ingressClassName: alb
   rules:
   - http:
       paths:
+      # Preview routes (header: x-preview: true) — must come BEFORE active routes
+      - path: /main
+        pathType: Prefix
+        backend:
+          service:
+            name: nsse-main-preview-prod
+            port:
+              number: 4443
+      - path: /order
+        pathType: Prefix
+        backend:
+          service:
+            name: nsse-order-preview-prod
+            port:
+              number: 4443
+      - path: /identity
+        pathType: Prefix
+        backend:
+          service:
+            name: nsse-identity-server-preview-prod
+            port:
+              number: 4443
+      # Active routes (production traffic)
       - path: /healthchecks
         pathType: Prefix
         backend:

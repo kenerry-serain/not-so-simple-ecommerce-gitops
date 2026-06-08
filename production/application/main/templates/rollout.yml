@@ -1,16 +1,26 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
 metadata:
   name: {{ .Release.Name }}
 spec:
   replicas: {{ .Values.mainDeployment.replicaCount }}
+  revisionHistoryLimit: 3
   selector:
     matchLabels:
       app: {{ .Release.Name }}
+      application: not-so-simple-ecommerce
+  strategy:
+    blueGreen:
+      activeService: {{ .Values.mainDeployment.activeServiceName }}
+      previewService: {{ .Values.mainDeployment.previewServiceName }}
+      autoPromotionEnabled: false
+      scaleDownDelaySeconds: 300
+      abortScaleDownDelaySeconds: 30
   template:
     metadata:
       labels:
         app: {{ .Release.Name }}
+        application: not-so-simple-ecommerce
     spec:
       topologySpreadConstraints:
       {{- range .Values.mainDeployment.topologySpreadConstraints }}
@@ -23,7 +33,7 @@ spec:
       {{- end }}
       securityContext:
         {{- toYaml .Values.mainDeployment.securityContext | nindent 8 }}
-      serviceAccount: {{.Values.mainDeployment.serviceAccountName}}
+      serviceAccount: {{ .Values.mainDeployment.serviceAccount }}
       volumes:
         {{- toYaml .Values.mainDeployment.volumes | nindent 6 }}
       imagePullSecrets:
@@ -32,10 +42,10 @@ spec:
       - name: {{ .Release.Name }}
         image: {{ .Values.mainDeployment.image }}
         ports:
-        - containerPort: {{.Values.mainDeployment.containerPort}}
+        - containerPort: {{ .Values.mainDeployment.containerPort }}
         envFrom:
         - configMapRef:
-            name: {{.Values.mainDeployment.configMap}}
+            name: {{ .Values.mainDeployment.configMap }}
         volumeMounts:
           {{- toYaml .Values.mainDeployment.volumeMounts | nindent 8 }}
         resources:
