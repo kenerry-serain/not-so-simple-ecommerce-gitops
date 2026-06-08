@@ -40,7 +40,7 @@ orderDeployment:
   volumes:
   - name: kestrel
     secret:
-      secretName: kestrel-certificate
+      secretName: nsse-kestrel-certificate-prod
   volumeMounts: 
   - name: kestrel
     readOnly: true

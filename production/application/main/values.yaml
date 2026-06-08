@@ -40,10 +40,10 @@ mainDeployment:
   volumes:
   - name: kestrel
     secret:
-      secretName: kestrel-certificate
+      secretName: nsse-kestrel-certificate-prod
   - name: mongo
     secret:
-      secretName: mongo-certificate
+      secretName: nsse-mongo-certificate-prod
   volumeMounts: 
   - name: kestrel
     readOnly: true
