@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: not-so-simple-ecommerce
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/kenerry-serain/not-so-simple-ecommerce-gitops
+    targetRevision: HEAD
+    path: production
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: nsse
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

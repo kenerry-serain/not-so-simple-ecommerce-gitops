@@ -18,30 +18,30 @@ helmGlobals:
   chartHome: application
 
 helmCharts:
-- name: health-checker
-  repo: health-checker
-  releaseName: health-checker
-  valuesFile: application/health-checker/values.yaml
+# - name: health-checker
+#   repo: health-checker
+#   releaseName: health-checker
+#   valuesFile: application/health-checker/values.yaml
 
 - name: identity-server
   repo: identity-server
   releaseName: identity-server
   valuesFile: application/identity-server/values.yaml
 
-- name: invoice-generator
-  repo: invoice-generator
-  releaseName: invoice-generator
-  valuesFile: application/invoice-generator/values.yaml
+# - name: invoice-generator
+#   repo: invoice-generator
+#   releaseName: invoice-generator
+#   valuesFile: application/invoice-generator/values.yaml
 
 - name: main
   repo: main
   releaseName: main
   valuesFile: application/main/values.yaml
 
-- name: notificator
-  repo: notificator
-  releaseName: notificator
-  valuesFile: application/notificator/values.yaml
+# - name: notificator
+#   repo: notificator
+#   releaseName: notificator
+#   valuesFile: application/notificator/values.yaml
 
 - name: order
   repo: order
@@ -49,26 +49,26 @@ helmCharts:
   valuesFile: application/order/values.yaml
 
 images:
-  - name: <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/nsse/production/order
-    newName: <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/nsse/production/order
+  - name: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/order
+    newName: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/order
     newTag: latest
 
-  - name: <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/nsse/production/main
-    newName: <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/nsse/production/main
+  - name: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/main
+    newName: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/main
     newTag: latest
 
-  - name: <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/nsse/production/identity-server
-    newName: <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/nsse/production/identity-server
+  - name: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/identity-server
+    newName: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/identity-server
     newTag: latest
 
-  - name: <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/nsse/production/notificator
-    newName: <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/nsse/production/notificator
+  - name: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/notificator
+    newName: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/notificator
     newTag: latest
 
-  - name: <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/nsse/production/health-checker
-    newName: <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/nsse/production/health-checker
+  - name: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/health-checker
+    newName: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/health-checker
     newTag: latest
 
-  - name: <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/nsse/production/invoice-generator
-    newName: <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/nsse/production/invoice-generator
+  - name: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/invoice-generator
+    newName: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/invoice-generator
     newTag: latest

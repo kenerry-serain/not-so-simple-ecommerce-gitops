@@ -1,5 +1,5 @@
 notificatorDeployment:
-  image: <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/nsse/production/notificator
+  image: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/notificator
   containerPort: 4443
   nodePort: 30001
   configMap: nsse-config-map-prod

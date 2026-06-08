@@ -1,5 +1,5 @@
 orderDeployment:
-  image: <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/nsse/production/order
+  image: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/order
   containerPort: 4443
   nodePort: 30000
   configMap: nsse-config-map-prod

@@ -4,7 +4,7 @@ metadata:
   name: ingress
   annotations:
     alb.ingress.kubernetes.io/backend-protocol: HTTPS
-    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:<AWS_ACCOUNT_ID>:certificate/307f252a-f107-4160-9890-a7aba1ae3e6f
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:968225077300:certificate/f56d35c6-9db4-4bf3-ba2c-8ae276f529e2
     alb.ingress.kubernetes.io/healthcheck-protocol: HTTPS
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
     alb.ingress.kubernetes.io/load-balancer-name: nsse-ingress-prod

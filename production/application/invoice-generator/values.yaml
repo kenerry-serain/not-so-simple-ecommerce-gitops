@@ -1,5 +1,5 @@
 invoiceGeneratorDeployment:
-  image: <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/nsse/production/invoice-generator
+  image: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/invoice-generator
   containerPort: 4443
   nodePort: 30003
   configMap: nsse-config-map-prod

@@ -1,5 +1,5 @@
 mainDeployment:
-  image: <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/nsse/production/main
+  image: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/main
   containerPort: 4443
   nodePort: 30002
   configMap: nsse-config-map-prod

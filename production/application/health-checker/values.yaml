@@ -1,5 +1,5 @@
 healthCheckerDeployment:
-  image: <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/nsse/production/health-checker
+  image: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/health-checker
   containerPort: 4443
   nodePort: 30005
   configMap: nsse-config-map-prod
