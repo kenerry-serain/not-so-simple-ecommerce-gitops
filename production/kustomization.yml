@@ -61,7 +61,7 @@ images:
   newTag: latest
 - name: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/main
   newName: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/main
-  newTag: 059b21e
+  newTag: v10
 - name: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/notificator
   newName: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/notificator
   newTag: latest
