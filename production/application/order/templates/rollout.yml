@@ -13,9 +13,15 @@ spec:
     blueGreen:
       activeService: {{ .Values.orderDeployment.activeServiceName }}
       previewService: {{ .Values.orderDeployment.previewServiceName }}
-      autoPromotionEnabled: false
+      autoPromotionEnabled: {{ .Values.orderDeployment.blueGreen.autoPromotionEnabled }}
       scaleDownDelaySeconds: 300
       abortScaleDownDelaySeconds: 30
+      prePromotionAnalysis:
+        templates:
+        - templateName: {{ .Values.orderDeployment.blueGreen.analysisTemplateName }}
+        args:
+        - name: url
+          value: {{ .Values.orderDeployment.blueGreen.previewHealthUrl }}
   template:
     metadata:
       labels:

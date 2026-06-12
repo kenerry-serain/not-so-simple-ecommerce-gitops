@@ -29,4 +29,10 @@ spec:
             kubernetes.io/metadata.name: argocd
       ports:
       - port: 4443
-  
+    # argo-rollouts controller runs the prePromotionAnalysis web checks
+    - from:
+      - namespaceSelector:
+          matchLabels:
+            kubernetes.io/metadata.name: argo-rollouts
+      ports:
+      - port: 4443

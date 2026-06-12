@@ -5,6 +5,10 @@ orderDeployment:
   previewNodePort: 30001
   activeServiceName: nsse-order-prod
   previewServiceName: nsse-order-preview-prod
+  blueGreen:
+    autoPromotionEnabled: true
+    analysisTemplateName: nsse-health-check-prod
+    previewHealthUrl: https://nsse-order-preview-prod.nsse.svc.cluster.local:4443/order/health
   configMap: nsse-config-map-prod
   replicaCount: 1
   serviceAccount: nsse-sa-prod
