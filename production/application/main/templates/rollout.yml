@@ -16,12 +16,6 @@ spec:
       autoPromotionEnabled: {{ .Values.mainDeployment.blueGreen.autoPromotionEnabled }}
       scaleDownDelaySeconds: 300
       abortScaleDownDelaySeconds: 30
-      prePromotionAnalysis:
-        templates:
-        - templateName: {{ .Values.mainDeployment.blueGreen.analysisTemplateName }}
-        args:
-        - name: url
-          value: {{ .Values.mainDeployment.blueGreen.previewHealthUrl }}
   template:
     metadata:
       labels:

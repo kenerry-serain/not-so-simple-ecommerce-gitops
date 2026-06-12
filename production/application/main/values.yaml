@@ -7,8 +7,6 @@ mainDeployment:
   previewServiceName: nsse-main-preview-prod
   blueGreen:
     autoPromotionEnabled: true
-    analysisTemplateName: nsse-health-check-prod
-    previewHealthUrl: https://nsse-main-preview-prod.nsse.svc.cluster.local:4443/main/health
   configMap: nsse-config-map-prod
   replicaCount: 1
   serviceAccount: nsse-sa-prod

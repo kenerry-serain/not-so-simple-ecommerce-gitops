@@ -16,12 +16,6 @@ spec:
       autoPromotionEnabled: {{ .Values.identityServerDeployment.blueGreen.autoPromotionEnabled }}
       scaleDownDelaySeconds: 300
       abortScaleDownDelaySeconds: 30
-      prePromotionAnalysis:
-        templates:
-        - templateName: {{ .Values.identityServerDeployment.blueGreen.analysisTemplateName }}
-        args:
-        - name: url
-          value: {{ .Values.identityServerDeployment.blueGreen.previewHealthUrl }}
   template:
     metadata:
       labels:
