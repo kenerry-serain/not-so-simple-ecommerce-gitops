@@ -1,0 +1,6 @@
+nameReference:
+  - kind: Rollout
+    group: argoproj.io
+    fieldSpecs:
+      - kind: HorizontalPodAutoscaler
+        path: spec/scaleTargetRef/name

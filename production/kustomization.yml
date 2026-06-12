@@ -1,75 +1,70 @@
 namespace: nsse
-nameSuffix: "-prod"
-namePrefix: "nsse-"
+nameSuffix: -prod
+namePrefix: nsse-
 commonLabels:
   application: not-so-simple-ecommerce
-resources: 
-  - infrastructure/namespace.yml
-  - infrastructure/config-map.yml
-  - infrastructure/service-account.yml
-  - infrastructure/secrets/ecr-image-pull-credentials.yml
-  - infrastructure/secrets/kestrel-certificate.yml
-  - infrastructure/secrets/mongo-certificate.yml
-  - infrastructure/ingress.yml
-  - infrastructure/network-policies/ingress.yml
-  - infrastructure/network-policies/egress.yml
-  - infrastructure/analysis-template.yml
+configurations:
+- configurations/namereference.yml
+resources:
+- infrastructure/namespace.yml
+- infrastructure/config-map.yml
+- infrastructure/service-account.yml
+- infrastructure/secrets/ecr-image-pull-credentials.yml
+- infrastructure/secrets/kestrel-certificate.yml
+- infrastructure/secrets/mongo-certificate.yml
+- infrastructure/ingress.yml
+- infrastructure/network-policies/ingress.yml
+- infrastructure/network-policies/egress.yml
+- infrastructure/analysis-template.yml
 
 helmGlobals:
   chartHome: application
 
 helmCharts:
-# - name: health-checker
-#   repo: health-checker
-#   releaseName: health-checker
-#   valuesFile: application/health-checker/values.yaml
-
 - name: identity-server
-  repo: identity-server
   releaseName: identity-server
+  repo: identity-server
   valuesFile: application/identity-server/values.yaml
-
-# - name: invoice-generator
-#   repo: invoice-generator
-#   releaseName: invoice-generator
-#   valuesFile: application/invoice-generator/values.yaml
-
 - name: main
-  repo: main
   releaseName: main
+  repo: main
   valuesFile: application/main/values.yaml
-
+- name: order
+  releaseName: order
+  repo: order
+  valuesFile: application/order/values.yaml
+# - name: health-checker
+#   releaseName: health-checker
+#   repo: health-checker
+#   valuesFile: application/health-checker/values.yaml
+# - name: invoice-generator
+#   releaseName: invoice-generator
+#   repo: invoice-generator
+#   valuesFile: application/invoice-generator/values.yaml
 # - name: notificator
-#   repo: notificator
 #   releaseName: notificator
+#   repo: notificator
 #   valuesFile: application/notificator/values.yaml
 
-- name: order
-  repo: order
-  releaseName: order
-  valuesFile: application/order/values.yaml
 
 images:
-  - name: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/order
-    newName: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/order
-    newTag: latest
-
-  - name: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/main
-    newName: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/main
-    newTag: v8
-
-  - name: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/identity-server
-    newName: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/identity-server
-    newTag: latest
-
-  - name: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/notificator
-    newName: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/notificator
-    newTag: latest
-
-  - name: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/health-checker
-    newName: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/health-checker
-    newTag: latest
-
-  - name: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/invoice-generator
-    newName: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/invoice-generator
-    newTag: latest
+- name: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/health-checker
+  newName: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/health-checker
+  newTag: latest
+- name: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/identity-server
+  newName: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/identity-server
+  newTag: latest
+- name: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/invoice-generator
+  newName: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/invoice-generator
+  newTag: latest
+- name: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/main
+  newName: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/main
+  newTag: v9
+- name: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/notificator
+  newName: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/notificator
+  newTag: latest
+- name: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/order
+  newName: 968225077300.dkr.ecr.us-east-1.amazonaws.com/nsse/production/order
+  newTag: latest
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
