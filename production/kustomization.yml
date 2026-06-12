@@ -17,6 +17,7 @@ resources:
 - infrastructure/ingress.yml
 - infrastructure/network-policies/ingress.yml
 - infrastructure/network-policies/egress.yml
+- infrastructure/analysis-template.yml
 
 helmGlobals:
   chartHome: application

@@ -16,6 +16,12 @@ spec:
       autoPromotionEnabled: {{ .Values.mainDeployment.blueGreen.autoPromotionEnabled }}
       scaleDownDelaySeconds: 300
       abortScaleDownDelaySeconds: 30
+      prePromotionAnalysis:
+        templates:
+        - templateName: nsse-health-check-prod
+        args:
+        - name: url
+          value: https://{{ .Values.mainDeployment.previewServiceName }}.nsse.svc.cluster.local:{{ .Values.mainDeployment.containerPort }}/main/health
   template:
     metadata:
       labels:

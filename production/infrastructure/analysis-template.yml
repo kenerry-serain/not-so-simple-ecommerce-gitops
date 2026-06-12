@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: health-check
+spec:
+  args:
+    - name: url
+  metrics:
+    - name: http-200
+      interval: 10s
+      count: 6
+      failureLimit: 1
+      # web provider marks measurement Failed on any non-2xx response,
+      # so a passing successCondition + HTTP 200 is what auto-promotes.
+      successCondition: "true"
+      provider:
+        web:
+          url: "{{args.url}}"
+          insecure: true
+          timeoutSeconds: 10
