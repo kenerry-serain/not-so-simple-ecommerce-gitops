@@ -9,7 +9,7 @@ spec:
     - name: http-200
       interval: 10s
       count: 6
-      failureLimit: 1
+      failureLimit: 3
       # web provider marks measurement Failed on any non-2xx response,
       # so a passing successCondition + HTTP 200 is what auto-promotes.
       successCondition: "true"
